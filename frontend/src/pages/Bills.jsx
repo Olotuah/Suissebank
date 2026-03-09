@@ -21,7 +21,7 @@ export default function Bills() {
           menuOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
-        <h2 className="text-2xl font-bold mb-8 font-inter">SuissBank</h2>
+        <h2 className="text-2xl font-bold mb-8 font-inter">SwissBankasi</h2>
         <nav className="space-y-4">
           <Link to="/dashboard" className="block hover:text-blue-400">🏠 Dashboard</Link>
           <Link to="/transactions" className="block hover:text-blue-400">💳 Transactions</Link>
