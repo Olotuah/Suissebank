@@ -81,7 +81,7 @@ export default function Support() {
         </form>
 
         <div className="mt-6 text-xs text-slate-400">
-          Or email: <span className="text-slate-200 font-semibold">support@swiftbank.com</span>
+          Or email: <span className="text-slate-200 font-semibold"></span>
         </div>
       </div>
     </div>
