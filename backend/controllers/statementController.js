@@ -49,14 +49,23 @@ export const previewStatement = async (req, res) => {
 
     const txFilter = {
       user: userId,
-      timestamp: { $gte: fromDate, $lte: toDate },
+      $or: [
+        { timestamp: { $gte: fromDate, $lte: toDate } },
+        { createdAt: { $gte: fromDate, $lte: toDate } },
+      ],
     };
 
     if (accountName) {
       txFilter.fromAccount = accountName;
     }
 
-    const transactions = await Transaction.find(txFilter).sort({ timestamp: 1, createdAt: 1 });
+    const transactions = await Transaction.find(txFilter).sort({
+      timestamp: 1,
+      createdAt: 1,
+    });
+
+    console.log("Statement preview filter:", txFilter);
+    console.log("Transactions found:", transactions.length);
 
     const allAccounts = await Account.find({ user: userId });
     const currentTotalBalance = allAccounts.reduce(
@@ -66,7 +75,10 @@ export const previewStatement = async (req, res) => {
 
     const futureFilter = {
       user: userId,
-      timestamp: { $gt: toDate },
+      $or: [
+        { timestamp: { $gt: toDate } },
+        { createdAt: { $gt: toDate } },
+      ],
     };
 
     if (accountName) {
@@ -74,6 +86,9 @@ export const previewStatement = async (req, res) => {
     }
 
     const futureTransactions = await Transaction.find(futureFilter);
+
+    const getSignedAmount = (tx) =>
+      tx.type === "Credit" ? Number(tx.amount || 0) : -Number(tx.amount || 0);
 
     const netAfterEnd = futureTransactions.reduce(
       (sum, tx) => sum + getSignedAmount(tx),
@@ -103,7 +118,7 @@ export const previewStatement = async (req, res) => {
       runningBalance += getSignedAmount(tx);
       return {
         _id: tx._id,
-        timestamp: tx.timestamp,
+        timestamp: tx.timestamp || tx.createdAt,
         description: tx.description,
         fromAccount: tx.fromAccount || "Main Account",
         type: tx.type,
@@ -154,9 +169,12 @@ export const generateStatementPdf = async (req, res) => {
     }
 
     const txFilter = {
-      user: userId,
-      timestamp: { $gte: fromDate, $lte: toDate },
-    };
+  user: userId,
+  $or: [
+    { timestamp: { $gte: fromDate, $lte: toDate } },
+    { createdAt: { $gte: fromDate, $lte: toDate } },
+  ],
+};
 
     if (accountName) {
       txFilter.fromAccount = accountName;
@@ -171,9 +189,12 @@ export const generateStatementPdf = async (req, res) => {
     );
 
     const futureFilter = {
-      user: userId,
-      timestamp: { $gt: toDate },
-    };
+  user: userId,
+  $or: [
+    { timestamp: { $gt: toDate } },
+    { createdAt: { $gt: toDate } },
+  ],
+};
 
     if (accountName) {
       futureFilter.fromAccount = accountName;
