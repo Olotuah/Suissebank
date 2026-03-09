@@ -40,7 +40,7 @@ export default function Register() {
         onSubmit={handleSubmit}
         className="bg-white/10 p-8 rounded-xl space-y-4 w-full max-w-md border border-white/10 shadow-xl"
       >
-       <h2 className="text-3xl font-heading font-bold">Register for SwiftBank</h2>
+       <h2 className="text-3xl font-heading font-bold">Register for SwissBankasi</h2>
        <p className="text-sm text-gray-300 font-sans font-normal">
         Create an account to access your dashboard.
        </p>
