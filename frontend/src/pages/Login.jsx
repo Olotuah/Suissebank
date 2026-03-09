@@ -31,7 +31,7 @@ export default function Login() {
 
       {/* NAVBAR */}
       <nav className="flex justify-between items-center px-8 py-5 border-b border-white/10">
-        <h1 className="text-2xl font-bold">SuissBank</h1>
+        <h1 className="text-2xl font-bold">SwissBankasi</h1>
         <div className="space-x-6 hidden md:block">
           <a href="#" className="hover:text-blue-400">Personal</a>
           <a href="#" className="hover:text-blue-400">Business</a>
@@ -162,7 +162,7 @@ export default function Login() {
 
       {/* FOOTER */}
       <footer className="px-8 py-10 border-t border-white/10 text-gray-500 text-sm text-center">
-        © {new Date().getFullYear()} SuissBank. All rights reserved.
+        © {new Date().getFullYear()} SwissBankasi. All rights reserved.
       </footer>
     </div>
   );
