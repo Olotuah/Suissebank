@@ -26,7 +26,12 @@ const getSignedAmount = (tx) => {
 
 export const previewStatement = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized user" });
+    }
+
     const { from, to, accountName } = req.query;
 
     if (!from || !to) {
@@ -55,8 +60,8 @@ export const previewStatement = async (req, res) => {
       ],
     };
 
-    if (accountName) {
-      txFilter.fromAccount = accountName;
+    if (accountName && accountName.trim()) {
+      txFilter.fromAccount = accountName.trim();
     }
 
     const transactions = await Transaction.find(txFilter).sort({
@@ -64,10 +69,16 @@ export const previewStatement = async (req, res) => {
       createdAt: 1,
     });
 
-    console.log("Statement preview filter:", txFilter);
-    console.log("Transactions found:", transactions.length);
+    console.log("==== STATEMENT PREVIEW DEBUG ====");
+    console.log("User ID:", userId);
+    console.log("From:", from);
+    console.log("To:", to);
+    console.log("Account Name:", accountName);
+    console.log("Transaction Filter:", JSON.stringify(txFilter, null, 2));
+    console.log("Transactions Found:", transactions.length);
 
     const allAccounts = await Account.find({ user: userId });
+
     const currentTotalBalance = allAccounts.reduce(
       (sum, acc) => sum + Number(acc.balance || 0),
       0
@@ -81,24 +92,24 @@ export const previewStatement = async (req, res) => {
       ],
     };
 
-    if (accountName) {
-      futureFilter.fromAccount = accountName;
+    if (accountName && accountName.trim()) {
+      futureFilter.fromAccount = accountName.trim();
     }
 
     const futureTransactions = await Transaction.find(futureFilter);
 
-    const getSignedAmount = (tx) =>
+    const signedAmount = (tx) =>
       tx.type === "Credit" ? Number(tx.amount || 0) : -Number(tx.amount || 0);
 
     const netAfterEnd = futureTransactions.reduce(
-      (sum, tx) => sum + getSignedAmount(tx),
+      (sum, tx) => sum + signedAmount(tx),
       0
     );
 
     const closingBalance = currentTotalBalance - netAfterEnd;
 
     const netWithinPeriod = transactions.reduce(
-      (sum, tx) => sum + getSignedAmount(tx),
+      (sum, tx) => sum + signedAmount(tx),
       0
     );
 
@@ -115,20 +126,22 @@ export const previewStatement = async (req, res) => {
     let runningBalance = openingBalance;
 
     const rows = transactions.map((tx) => {
-      runningBalance += getSignedAmount(tx);
+      runningBalance += signedAmount(tx);
+
       return {
         _id: tx._id,
         timestamp: tx.timestamp || tx.createdAt,
-        description: tx.description,
+        description: tx.description || "",
         fromAccount: tx.fromAccount || "Main Account",
         type: tx.type,
-        amount: tx.amount,
-        status: tx.status,
+        amount: Number(tx.amount || 0),
+        status: tx.status || "Completed",
         runningBalance,
       };
     });
 
-    return res.json({
+    return res.status(200).json({
+      success: true,
       user,
       from,
       to,
@@ -141,7 +154,10 @@ export const previewStatement = async (req, res) => {
     });
   } catch (err) {
     console.error("previewStatement error:", err);
-    return res.status(500).json({ message: "Failed to load statement preview." });
+    return res.status(500).json({
+      message: "Failed to load statement preview.",
+      error: err.message,
+    });
   }
 };
 
