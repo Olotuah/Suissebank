@@ -15,7 +15,7 @@ export default function TopUp() {
       <Toaster position="top-right" />
       <div className="max-w-xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6">
         <h1 className="text-2xl font-bold">Top-Up</h1>
-        <p className="text-slate-400 text-sm mt-1">Add money to your SuissBank account (simulation).</p>
+        <p className="text-slate-400 text-sm mt-1">Add money to your SwissBankasi account (simulation).</p>
 
         <form onSubmit={submit} className="mt-6 space-y-4">
           <input
