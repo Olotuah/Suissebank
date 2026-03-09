@@ -19,7 +19,7 @@ export default function Transactions() {
       <aside
         className={`fixed md:static top-0 left-0 z-40 w-64 p-6 bg-white/10 backdrop-blur-md border-r border-white/10 transform transition-transform duration-300 ease-in-out ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
-        <h2 className="text-2xl font-bold mb-8 font-inter">SwiftBank</h2>
+        <h2 className="text-2xl font-bold mb-8 font-inter">Swissbankasi</h2>
         <nav className="space-y-4">
           <Link to="/dashboard" className="block hover:text-blue-400">🏠 Dashboard</Link>
           <Link to="/transactions" className="block hover:text-blue-400">💳 Transactions</Link>
