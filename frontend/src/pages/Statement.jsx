@@ -117,7 +117,7 @@ export default function Statement() {
 
       const a = document.createElement("a");
       a.href = url;
-      a.download = `suissbank-statement-${form.from}-${form.to}.pdf`;
+      a.download = `SwissBankasi-statement-${form.from}-${form.to}.pdf`;
       document.body.appendChild(a);
       a.click();
       a.remove();
