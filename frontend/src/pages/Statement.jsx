@@ -323,7 +323,7 @@ export default function Statement() {
                     <table className="w-full text-sm">
                       <thead className="bg-slate-800 text-slate-300">
                         <tr>
-                          <th className="text-left px-4 py-3 font-semibold">Date</th>
+                          <th className="text-left px-4 py-3 font-semibold min-w-[180px]">Date</th>
                           <th className="text-left px-4 py-3 font-semibold">Description</th>
                           <th className="text-left px-4 py-3 font-semibold">Account</th>
                           <th className="text-left px-4 py-3 font-semibold">Type</th>
@@ -335,7 +335,7 @@ export default function Statement() {
                         {preview.transactions?.length ? (
                           preview.transactions.map((tx) => (
                             <tr key={tx._id} className="border-t border-slate-800">
-                              <td className="px-4 py-3 text-slate-300 whitespace-nowrap">
+                              <td className="px-4 py-3 text-slate-300 whitespace-nowrap min-w-[180px]">
                                 {formatDate(tx.timestamp)}
                               </td>
                               <td className="px-4 py-3 text-slate-200">
@@ -403,5 +403,6 @@ function formatDate(date) {
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-  });
+    hour12: true
+  }).replace(",", "");
 }
