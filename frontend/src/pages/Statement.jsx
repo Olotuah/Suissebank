@@ -155,7 +155,7 @@ export default function Statement() {
               <div>
                 <h1 className="text-2xl font-bold">Statement of Account</h1>
                 <p className="text-slate-400 text-sm">
-                  Preview and download your SuissBank statement.
+                  Preview and download your SwissBankasi statement.
                 </p>
               </div>
             </div>
