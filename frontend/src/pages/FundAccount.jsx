@@ -135,7 +135,7 @@ export default function FundAccount() {
               </button>
 
               <p className="text-xs text-slate-400 mt-2">
-                * This is a simulated funding flow for SwiftBank.
+                * This is a funding flow for SwissBankasi.
               </p>
             </form>
           )}
