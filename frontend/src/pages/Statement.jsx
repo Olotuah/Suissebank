@@ -92,7 +92,12 @@ export default function Statement() {
       const params = buildParams();
       const res = await api.get(`/statements/preview?${params.toString()}`);
       setPreview(res.data);
-      toast.success("Statement preview loaded");
+
+      if (res.data?.transactions?.length) {
+        toast.success("Statement preview loaded");
+      } else {
+        toast("No transactions found for the selected date range.");
+      }
     } catch (err) {
       console.error(err);
       toast.error(err?.response?.data?.message || "Failed to load preview");
@@ -136,7 +141,7 @@ export default function Statement() {
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white p-6">
       <Toaster position="top-right" />
 
-      <div className="max-w-6xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-6">
         <button
           onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-700 hover:bg-slate-800 transition text-sm"
@@ -199,7 +204,7 @@ export default function Statement() {
                   name="from"
                   value={form.from}
                   onChange={handleChange}
-                  className="w-full p-3 rounded-2xl bg-slate-950 border border-slate-700"
+                  className="w-full p-3 rounded-2xl bg-slate-950 border border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
@@ -210,7 +215,7 @@ export default function Statement() {
                   name="to"
                   value={form.to}
                   onChange={handleChange}
-                  className="w-full p-3 rounded-2xl bg-slate-950 border border-slate-700"
+                  className="w-full p-3 rounded-2xl bg-slate-950 border border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
             </div>
@@ -223,7 +228,7 @@ export default function Statement() {
                 name="accountName"
                 value={form.accountName}
                 onChange={handleChange}
-                className="w-full p-3 rounded-2xl bg-slate-950 border border-slate-700"
+                className="w-full p-3 rounded-2xl bg-slate-950 border border-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="">All Accounts</option>
                 <option value="Main Account">Main Account</option>
@@ -256,12 +261,13 @@ export default function Statement() {
           {/* RIGHT PANEL */}
           <div className="xl:col-span-2 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl p-6 sm:p-8">
             {!preview ? (
-              <div className="h-full min-h-[400px] flex items-center justify-center text-center text-slate-400">
+              <div className="h-full min-h-[420px] flex items-center justify-center text-center text-slate-400">
                 <div>
                   <FileText className="mx-auto mb-3 text-slate-500" size={40} />
                   <p className="text-lg font-semibold text-slate-300">No preview loaded yet</p>
                   <p className="text-sm mt-1">
-                    Select your date range and click <span className="font-semibold">Preview Statement</span>.
+                    Select your date range and click{" "}
+                    <span className="font-semibold">Preview Statement</span>.
                   </p>
                 </div>
               </div>
@@ -320,42 +326,54 @@ export default function Statement() {
                 {/* TABLE */}
                 <div className="rounded-2xl border border-slate-800 overflow-hidden">
                   <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
+                    <table className="w-full text-sm table-fixed">
                       <thead className="bg-slate-800 text-slate-300">
                         <tr>
-                          <th className="text-left px-4 py-3 font-semibold min-w-[180px]">Date</th>
-                          <th className="text-left px-4 py-3 font-semibold">Description</th>
-                          <th className="text-left px-4 py-3 font-semibold">Account</th>
-                          <th className="text-left px-4 py-3 font-semibold">Type</th>
-                          <th className="text-right px-4 py-3 font-semibold">Amount</th>
-                          <th className="text-right px-4 py-3 font-semibold">Balance</th>
+                          <th className="text-left px-4 py-3 font-semibold w-[190px] whitespace-nowrap">
+                            Date
+                          </th>
+                          <th className="text-left px-4 py-3 font-semibold">
+                            Description
+                          </th>
+                          <th className="text-left px-4 py-3 font-semibold w-[140px] whitespace-nowrap">
+                            Account
+                          </th>
+                          <th className="text-left px-4 py-3 font-semibold w-[90px] whitespace-nowrap">
+                            Type
+                          </th>
+                          <th className="text-right px-4 py-3 font-semibold w-[130px] whitespace-nowrap">
+                            Amount
+                          </th>
+                          <th className="text-right px-4 py-3 font-semibold w-[130px] whitespace-nowrap">
+                            Balance
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         {preview.transactions?.length ? (
                           preview.transactions.map((tx) => (
-                            <tr key={tx._id} className="border-t border-slate-800">
-                              <td className="px-4 py-3 text-slate-300 whitespace-nowrap min-w-[180px]">
+                            <tr key={tx._id} className="border-t border-slate-800 align-top">
+                              <td className="px-4 py-3 text-slate-300 whitespace-nowrap w-[190px] align-top">
                                 {formatDate(tx.timestamp)}
                               </td>
-                              <td className="px-4 py-3 text-slate-200">
+                              <td className="px-4 py-3 text-slate-200 break-words align-top">
                                 {tx.description || "-"}
                               </td>
-                              <td className="px-4 py-3 text-slate-300">
+                              <td className="px-4 py-3 text-slate-300 whitespace-nowrap align-top">
                                 {tx.fromAccount || "Main Account"}
                               </td>
                               <td
-                                className={`px-4 py-3 font-semibold ${
+                                className={`px-4 py-3 font-semibold whitespace-nowrap align-top ${
                                   tx.type === "Credit" ? "text-emerald-400" : "text-rose-400"
                                 }`}
                               >
                                 {tx.type}
                               </td>
-                              <td className="px-4 py-3 text-right text-slate-200">
+                              <td className="px-4 py-3 text-right text-slate-200 whitespace-nowrap align-top">
                                 {tx.type === "Credit" ? "+" : "-"}
                                 {formatCurrency(tx.amount)}
                               </td>
-                              <td className="px-4 py-3 text-right text-slate-200 font-semibold">
+                              <td className="px-4 py-3 text-right text-slate-200 font-semibold whitespace-nowrap align-top">
                                 {formatCurrency(tx.runningBalance)}
                               </td>
                             </tr>
@@ -370,6 +388,11 @@ export default function Statement() {
                       </tbody>
                     </table>
                   </div>
+                </div>
+
+                {/* FOOT NOTE */}
+                <div className="text-xs text-slate-500">
+                  This preview reflects recorded transactions within the selected statement period.
                 </div>
               </div>
             )}
@@ -397,12 +420,19 @@ function formatCurrency(value) {
 }
 
 function formatDate(date) {
-  return new Date(date).toLocaleString("en-US", {
+  const d = new Date(date);
+
+  const datePart = d.toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "2-digit",
+  });
+
+  const timePart = d.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
-    hour12: true
-  }).replace(",", "");
+    hour12: true,
+  });
+
+  return `${datePart} ${timePart}`;
 }
