@@ -260,7 +260,7 @@ export default function Transfer() {
           </button>
 
           <Link to="/dashboard" className="text-sm text-slate-300 hover:text-white transition">
-            SuissBank Dashboard
+            SwissBankasi Dashboard
           </Link>
         </div>
 
@@ -270,7 +270,7 @@ export default function Transfer() {
             <div>
               <h1 className="text-3xl font-bold">Transfer Funds</h1>
               <p className="text-slate-400 mt-1">
-                Send money to another SuissBank user by{" "}
+                Send money to another SwissBankasi user by{" "}
                 <span className="text-slate-200">account number</span> or{" "}
                 <span className="text-slate-200">email</span>.
               </p>
