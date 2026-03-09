@@ -151,7 +151,6 @@ export default function Statement() {
         </button>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          {/* LEFT PANEL */}
           <div className="xl:col-span-1 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl p-6 sm:p-8 space-y-6">
             <div className="flex items-center gap-3">
               <div className="h-12 w-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center">
@@ -258,7 +257,6 @@ export default function Statement() {
             </div>
           </div>
 
-          {/* RIGHT PANEL */}
           <div className="xl:col-span-2 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl p-6 sm:p-8">
             {!preview ? (
               <div className="h-full min-h-[420px] flex items-center justify-center text-center text-slate-400">
@@ -273,7 +271,6 @@ export default function Statement() {
               </div>
             ) : (
               <div className="space-y-6">
-                {/* SUMMARY */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <SummaryCard
                     title="Opening Balance"
@@ -293,7 +290,6 @@ export default function Statement() {
                   />
                 </div>
 
-                {/* META */}
                 <div className="rounded-2xl bg-slate-800/60 border border-slate-700 p-4 text-sm text-slate-300">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <p>
@@ -323,57 +319,73 @@ export default function Statement() {
                   </div>
                 </div>
 
-                {/* TABLE */}
                 <div className="rounded-2xl border border-slate-800 overflow-hidden">
                   <div className="overflow-x-auto">
-                    <table className="w-full text-sm table-fixed">
+                    <table className="min-w-[1100px] w-full text-sm">
+                      <colgroup>
+                        <col className="w-[220px]" />
+                        <col />
+                        <col className="w-[170px]" />
+                        <col className="w-[110px]" />
+                        <col className="w-[150px]" />
+                        <col className="w-[160px]" />
+                      </colgroup>
+
                       <thead className="bg-slate-800 text-slate-300">
                         <tr>
-                          <th className="text-left px-4 py-3 font-semibold w-[190px] whitespace-nowrap">
+                          <th className="text-left px-6 py-4 font-semibold whitespace-nowrap">
                             Date
                           </th>
-                          <th className="text-left px-4 py-3 font-semibold">
+                          <th className="text-left px-6 py-4 font-semibold">
                             Description
                           </th>
-                          <th className="text-left px-4 py-3 font-semibold w-[140px] whitespace-nowrap">
+                          <th className="text-left px-6 py-4 font-semibold whitespace-nowrap">
                             Account
                           </th>
-                          <th className="text-left px-4 py-3 font-semibold w-[90px] whitespace-nowrap">
+                          <th className="text-left px-6 py-4 font-semibold whitespace-nowrap">
                             Type
                           </th>
-                          <th className="text-right px-4 py-3 font-semibold w-[130px] whitespace-nowrap">
+                          <th className="text-right px-6 py-4 font-semibold whitespace-nowrap">
                             Amount
                           </th>
-                          <th className="text-right px-4 py-3 font-semibold w-[130px] whitespace-nowrap">
+                          <th className="text-right px-6 py-4 font-semibold whitespace-nowrap">
                             Balance
                           </th>
                         </tr>
                       </thead>
+
                       <tbody>
                         {preview.transactions?.length ? (
                           preview.transactions.map((tx) => (
-                            <tr key={tx._id} className="border-t border-slate-800 align-top">
-                              <td className="px-4 py-3 text-slate-300 whitespace-nowrap w-[190px] align-top">
+                            <tr key={tx._id} className="border-t border-slate-800">
+                              <td className="px-6 py-4 text-slate-300 whitespace-nowrap align-top">
                                 {formatDate(tx.timestamp)}
                               </td>
-                              <td className="px-4 py-3 text-slate-200 break-words align-top">
-                                {tx.description || "-"}
+
+                              <td className="px-6 py-4 text-slate-200 align-top">
+                                <div className="max-w-full break-words leading-6">
+                                  {tx.description || "-"}
+                                </div>
                               </td>
-                              <td className="px-4 py-3 text-slate-300 whitespace-nowrap align-top">
+
+                              <td className="px-6 py-4 text-slate-300 whitespace-nowrap align-top">
                                 {tx.fromAccount || "Main Account"}
                               </td>
+
                               <td
-                                className={`px-4 py-3 font-semibold whitespace-nowrap align-top ${
+                                className={`px-6 py-4 font-semibold whitespace-nowrap align-top ${
                                   tx.type === "Credit" ? "text-emerald-400" : "text-rose-400"
                                 }`}
                               >
                                 {tx.type}
                               </td>
-                              <td className="px-4 py-3 text-right text-slate-200 whitespace-nowrap align-top">
+
+                              <td className="px-6 py-4 text-right text-slate-200 whitespace-nowrap align-top">
                                 {tx.type === "Credit" ? "+" : "-"}
                                 {formatCurrency(tx.amount)}
                               </td>
-                              <td className="px-4 py-3 text-right text-slate-200 font-semibold whitespace-nowrap align-top">
+
+                              <td className="px-6 py-4 text-right text-slate-200 font-semibold whitespace-nowrap align-top">
                                 {formatCurrency(tx.runningBalance)}
                               </td>
                             </tr>
@@ -390,7 +402,6 @@ export default function Statement() {
                   </div>
                 </div>
 
-                {/* FOOT NOTE */}
                 <div className="text-xs text-slate-500">
                   This preview reflects recorded transactions within the selected statement period.
                 </div>
