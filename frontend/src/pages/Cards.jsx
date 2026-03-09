@@ -21,7 +21,7 @@ export default function Cards() {
           menuOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
-        <h2 className="text-2xl font-bold mb-8 font-inter">SuissBank</h2>
+        <h2 className="text-2xl font-bold mb-8 font-inter">SwissBankasi</h2>
         <nav className="space-y-4">
           <Link to="/dashboard" className="block hover:text-blue-400">🏠 Dashboard</Link>
           <Link to="/transactions" className="block hover:text-blue-400">💳 Transactions</Link>
@@ -36,7 +36,7 @@ export default function Cards() {
         <h1 className="text-3xl sm:text-4xl font-bold mb-6 font-inter">Your Cards</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-gradient-to-r from-indigo-600 to-blue-500 p-6 rounded-2xl text-white shadow-md">
-            <h2 className="text-lg font-semibold">SuissBank Virtual Card</h2>
+            <h2 className="text-lg font-semibold">SwissBankasi Virtual Card</h2>
             <p className="text-2xl font-semibold mt-4">**** **** **** 4321</p>
             <div className="flex justify-between mt-6 text-sm">
               <span>VALID: 06/28</span>
