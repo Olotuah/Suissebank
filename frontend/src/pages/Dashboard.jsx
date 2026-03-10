@@ -306,8 +306,8 @@ export default function Dashboard() {
             </Link>
 
             <div className="pt-2 text-xs text-slate-200/80 space-y-1">
-              <p>• Daily limit: $5,000</p>
-              <p>• Single transfer: $1,000</p>
+              <p>• Daily limit: Unlimited</p>
+              <p>• Single transfer: Unlimited</p>
               <p>• Upgrade your profile for more</p>
             </div>
           </div>
