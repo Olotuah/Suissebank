@@ -33,7 +33,7 @@ function makeSeedSeries(seed, points = 40) {
 export default function MarketCharts() {
   const [active, setActive] = useState("FX"); // FX | STOCKS
 
-  const [usdngn, setUsdngn] = useState(() => makeSeedSeries(1500, 50));
+  const [gbpusd, setgbpusd] = useState(() => makeSeedSeries(1500, 50));
   const [eurusd, setEurusd] = useState(() => makeSeedSeries(1.09, 50));
   const [aapl, setAapl] = useState(() => makeSeedSeries(185, 50));
   const [tsla, setTsla] = useState(() => makeSeedSeries(210, 50));
