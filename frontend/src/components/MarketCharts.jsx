@@ -62,10 +62,10 @@ export default function MarketCharts() {
   const fxCards = useMemo(() => {
     const last = (arr) => arr[arr.length - 1]?.value ?? 0;
     return [
-      { title: "USD/NGN", value: last(usdngn), data: usdngn, kind: "area" },
+      { title: "GBP/USD", value: last(gbpusd), data: gbpusd, kind: "area" },
       { title: "EUR/USD", value: last(eurusd), data: eurusd, kind: "line" },
     ];
-  }, [usdngn, eurusd]);
+  }, [gbpusd, eurusd]);
 
   const stockCards = useMemo(() => {
     const last = (arr) => arr[arr.length - 1]?.value ?? 0;
@@ -83,7 +83,7 @@ export default function MarketCharts() {
         <div>
           <h3 className="text-xl font-bold">Markets</h3>
           <p className="text-sm text-slate-400">
-            Live-moving charts (simulated like Binance/Bybit)
+    
           </p>
         </div>
 
@@ -166,7 +166,7 @@ export default function MarketCharts() {
       </div>
 
       <p className="text-xs text-slate-500">
-        Next upgrade: switch from simulated ticks to real market data.
+        
       </p>
     </div>
   );
